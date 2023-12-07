@@ -1,0 +1,16 @@
+{
+  "ar": {
+    "weatherTitle": "الطقس فى الولايات التونسية",
+    "week":"الطقس في تونس حسب الولاية ولمدة اسبوع",
+    "heat":"المدينه الاكثر حرارة",
+    "cold":"المدينه الاكثر برودة",
+    "current":"الطقس فى موقعك الحالى"
+  },
+  "fr": {
+    "weatherTitle": "La météo en Tunisie",
+    "week":"Météo en Tunisie par état et pour une semaine",
+    "heat": "la ville la plus chaude",
+    "cold": "la ville la plus froide",
+    "current":"Météo à votre emplacement actuel"
+  }
+}
