@@ -4,6 +4,11 @@
     "week":"الطقس في تونس حسب الولاية ولمدة اسبوع",
     "heat":"المدينه الاكثر حرارة",
     "cold":"المدينه الاكثر برودة",
+    "nav1":"صور القمر الصناعى",
+    "nav2":"التوقعات الجوية",
+    "con1":"تواصل معنا",
+    "con2":"شروط الاستعمال",
+    "con3":"سياسة الخصوصية",
     "current":"الطقس فى موقعك الحالى"
   },
   "fr": {
@@ -11,6 +16,11 @@
     "week":"Météo en Tunisie par état et pour une semaine",
     "heat": "la ville la plus chaude",
     "cold": "la ville la plus froide",
+    "nav1":"Images satellites",
+    "nav2":"prévisions météo",
+    "con1":"Contactez nous",
+    "con2":"Conditions d'utilisation",
+    "con3":"politique de confidentialité",
     "current":"Météo à votre emplacement actuel"
   }
 }
