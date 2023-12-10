@@ -9,6 +9,10 @@
     "con1":"تواصل معنا",
     "con2":"شروط الاستعمال",
     "con3":"سياسة الخصوصية",
+    "name":"الاسم",
+    "email":"الايميل",
+    "message":"الرسالة",
+    "contact_us":"تواصل معنا",
     "current":"الطقس فى موقعك الحالى"
   },
   "fr": {
@@ -21,6 +25,10 @@
     "con1":"Contactez nous",
     "con2":"Conditions d'utilisation",
     "con3":"politique de confidentialité",
+    "name":"le Nom",
+    "email":"Email",
+    "message":"le Message",
+    "contact_us":"Contactez nous",
     "current":"Météo à votre emplacement actuel"
   }
 }

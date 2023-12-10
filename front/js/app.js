@@ -1,11 +1,12 @@
-let lang = localStorage.getItem("lang") ;
-console.log(lang)
-if (lang != "fr") {
-  localStorage.setItem("lang","ar")
-}
+
+const city_name = document.querySelector(".city_name")
 const footerTextElement = document.getElementById('footerText');
 const currentYear = new Date().getFullYear();
 footerTextElement.textContent = `meteo-Tunisie.net © ! أفضل معلومات الطقس. ${currentYear}!`;
+let selectElement = document.getElementById("languageSelect");
+const searchResultsElement = document.getElementById("searchResults");
+const mainContainer = document.querySelector("body");
+
 
 let toggleBtn = document.querySelector("#navbar-toggle");
 let collapse = document.querySelector("#navbar-collapse");
@@ -50,6 +51,7 @@ for (let i = 0; i < daysOfWeek.length; i++) {
 
 function callWeatherAPI(lat, lng, lang) {
   lang = localStorage.getItem("lang")
+  const days_cohosed = lang == "ar" ? daysOfWeekArabic : daysOfWeekFrench ;
   const key = "15860d66bb940233e9dd3c943f17139f";
   const units = "metric";
   // lang = lang
@@ -57,16 +59,14 @@ function callWeatherAPI(lat, lng, lang) {
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data.daily);
       const weatherContainer = document.querySelector(".tol");
 
 weatherContainer.innerHTML = "";
-
-daysOfWeekArabic.forEach((dayName, index) => {
+days_cohosed.forEach((dayName, index) => {
   const day = data.daily[index];
 
   const dayElement = document.createElement("div");
-  dayElement.classList.add("flex","justify-around","items-center" ,"w-[300px]","gap-2", "h-[55px]" );
+  dayElement.classList.add("flex", `${lang == "ar" ? ".":"flex-row-reverse"}`,"justify-around","items-center" ,"w-[300px]","gap-2", "h-[55px]" );
   
   dayElement.innerHTML = `
       <p class="text-xl font-bold">${dayName}</p>
@@ -106,7 +106,7 @@ function handleCityClick(event) {
   const city = event.currentTarget.getAttribute("data-city");
   lang = localStorage.getItem("lang")
   callWeatherAPI(lat, lng,lang);
-  document.getElementById("curr").innerText = `${city}`;
+  city_name.innerText = city;
 }
 
 
@@ -124,7 +124,7 @@ function populateCities(lang) {
                 data-city="${city.city}"
                 onclick="handleCityClick(event)"
             >
-                <span class="w-full">
+                <span class="w-full text-black ">
                     ${city.city}
                 </span>
             </a>
@@ -142,7 +142,7 @@ function populateCities(lang) {
                 data-city="${city.city}"
                 onclick="handleCityClick(event)"
             >
-                <span class="w-full">
+                <span class="w-full text-black ">
                 ${city.city}
                 </span>
             </a>
@@ -153,7 +153,7 @@ function populateCities(lang) {
   }
 
 }
-const city_name = document.querySelector(".city_name")
+
 function getRandomCity(lang) {
   if (lang === "ar") {
     const randomIndex = Math.floor(Math.random() * arTun.length);
@@ -171,12 +171,7 @@ function getRandomCity(lang) {
     
   }
 }
-document.addEventListener("DOMContentLoaded", function () {
-  lang = localStorage.getItem("lang")
-  populateCities(lang);
-  getRandomCity(lang)
-  // callWeatherAPI(36.8587351,10.188232, lang)
-});
+
 
 
 // function initMap() {
@@ -217,21 +212,81 @@ async function loadTranslations() {
   changeLanguage(lang || 'ar');
 }
 
-function changeLanguage(lang) {
-  document.documentElement.lang = lang;
-  localStorage.setItem("lang",lang)
+function changeLanguage() {
+  let selectedValue = selectElement.value;
+  console.log(selectedValue)
+  document.documentElement.lang = selectedValue;
+  localStorage.setItem("lang",selectedValue)
   const elements = document.querySelectorAll('[data-translation]');
   elements.forEach(element => {
     const translationKey = element.dataset.translation;
-    element.textContent = translations[lang][translationKey] || '';
+    element.textContent = translations[selectedValue][translationKey] || '';
   });
-  console.log(lang)
-  // lang = localStorage.getItem("lang")
-  populateCities(lang);
-  getRandomCity(lang)
+  populateCities(selectedValue);
+  getRandomCity(selectedValue)
 }
 
-document.addEventListener('DOMContentLoaded', loadTranslations);
+// document.addEventListener('DOMContentLoaded', );
 
 
 
+loadTranslations()
+document.addEventListener("DOMContentLoaded", function () {
+  lang = localStorage.getItem("lang") || "ar"
+  theme = localStorage.getItem("theme") || "light"
+  mainContainer.classList.add(theme);
+  populateCities(lang);
+  getRandomCity(lang)
+  if (lang) {
+    selectElement.value = lang;
+  }
+  changeLanguage();
+  
+});
+
+
+
+function searchCities(text) {
+  if (!text.length<= 0) {
+    const results = filterCities(text);
+    displayResults(results);
+  } else{
+    searchResultsElement.style.display = "none";
+  }
+}
+
+function filterCities(text) {
+  text = text.toLowerCase();
+  return all.filter(city_name => city_name.city.toLowerCase().includes(text));
+}
+
+function displayResults(results) {
+
+  searchResultsElement.innerHTML = "";
+
+  results.forEach(result => {
+    const listItem = document.createElement("li");
+    listItem.innerHTML = `<span class="inline-block w-full  result_item" >${result.city}</span>`;
+    searchResultsElement.appendChild(listItem);
+  });
+  searchResultsElement.style.display = results.length > 0 ? "flex" : "none";
+}
+const themeToggleBtn = document.querySelector(".theme_toggler");
+themeToggleBtn.addEventListener("click", changeTheme);
+
+function changeTheme() {
+
+  if (mainContainer.classList.contains("light")) {
+    mainContainer.classList.add("dark");
+    mainContainer.classList.remove("light");
+    localStorage.setItem("theme", "dark")
+  } else {
+    mainContainer.classList.add("light");
+    mainContainer.classList.remove("dark");
+    localStorage.setItem("theme", "light")
+  }
+}
+
+// if (theme) {
+//   mainContainer.classList.add(theme);
+// }
