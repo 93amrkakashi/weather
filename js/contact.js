@@ -37,8 +37,7 @@ function changeLanguage() {
     const translationKey = element.dataset.translation;
     element.textContent = translations[selectedValue][translationKey] || '';
   });
-  populateCities(selectedValue);
-  getRandomCity(selectedValue)
+  change_dir(selectedValue)
 }
 
 
@@ -86,7 +85,6 @@ const themeToggleBtn = document.querySelector(".theme_toggler");
 themeToggleBtn.addEventListener("click", changeTheme);
 
 function changeTheme() {
-
   if (mainContainer.classList.contains("light")) {
     mainContainer.classList.add("dark");
     mainContainer.classList.remove("light");
@@ -96,4 +94,18 @@ function changeTheme() {
     mainContainer.classList.remove("dark");
     localStorage.setItem("theme", "light")
   }
+}
+
+let fields = document.querySelectorAll(".field");
+
+function change_dir(lang) {
+  fields.forEach(field => {
+    if (lang === "ar") {
+      field.classList.add("items-start");
+      field.classList.remove("items-end");
+    } else {
+      field.classList.remove("items-start");
+      field.classList.add("items-end");
+    }
+  });
 }
