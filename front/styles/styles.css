@@ -6,7 +6,7 @@
 
 body{
   transition: all 0.9s ease-in-out;
-  background-image: url(../images/home-cloud.png);
+  background-image: url(../images/home-cloud.webp);
   background-size: 1600px 900px;
 }
 
@@ -85,6 +85,72 @@ body{
   margin-top: 2px;
   background: #1616169c;
 }
+
+
+#slider{
+  overflow:hidden;
+}
+
+.slides{
+  overflow:hidden;
+  display:none;
+  max-height: 490px;
+}
+
+img{
+  width:100%;
+}
+
+#dot{
+  margin:0 auto;
+  text-align:center;
+}
+.dot{
+  display:inline-block;
+  border-radius:50%;
+  background:#f0e68fd7 ;
+  padding:4px;
+  margin:5px 5px;
+}
+
+.active{
+  background:#FFEE55;
+}
+
+.pol_sec p{
+  font-size: 24px;
+  font-weight: 300;
+margin: 5px auto;
+width: 100%;
+}
+.pol_sec a{
+color: #6599e7;
+}
+.pol_sec h1{
+  color: #1c8edf;
+width: 100%;
+ font-size: 38px;
+ font-weight: bold;
+ margin-top: 8px;
+ margin-bottom: 5px;
+ }
+.pol_sec h3,
+.pol_sec h4,
+.pol_sec h5{
+  color: #1c8edf;
+width: 100%;
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 8px;
+  margin-bottom: 5px;
+
+}
+
+
+
+
+
+
 
 
 

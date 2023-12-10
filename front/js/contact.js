@@ -97,4 +97,3 @@ function changeTheme() {
     localStorage.setItem("theme", "light")
   }
 }
-
