@@ -128,12 +128,11 @@ function populateCities(lang) {
   }else{
     frTun.forEach((city) => {
       const cityTemplate = `
-            <a href="" 
+      <a href="./index.html?lat=${city.lat}&lng=${city.lng}&city=${city.city}" 
                 class="bg-gray-50 m-auto flex justify-center items-center font-bold border-2 rounded-lg text-center text-md w-[150px] h-[50px] py-1 px-2 "
                 data-lat="${city.lat}" 
                 data-lng="${city.lng}"
                 data-city="${city.city}"
-                onclick="handleCityClickOtherwhere(event)"
             >
                 <span class="w-full text-black ">
                 ${city.city}

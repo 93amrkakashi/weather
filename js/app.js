@@ -282,17 +282,21 @@ function filterCities(text) {
 }
 
 function displayResults(results) {
-
+console.log(results)
   searchResultsElement.innerHTML = "";
 
   results.forEach(result => {
     const listItem = document.createElement("li");
-    listItem.innerHTML = `<span class="inline-block w-full  result_item" >${result.city}</span>`;
+    listItem.innerHTML = `
+    <a href="./index.html?lat=${result.lat}&lng=${result.lng}&city=${result.city}"
+    class="inline-block w-full  result_item" >
+    ${result.city}
+    </a>`;
     searchResultsElement.appendChild(listItem);
   });
   searchResultsElement.style.display = results.length > 0 ? "flex" : "none";
 }
-
+// <a href="./index.html?lat=${city.lat}&lng=${city.lng}&city=${city.city}"
 
 const themeToggleBtn = document.querySelector(".theme_toggler");
 themeToggleBtn.addEventListener("click", changeTheme);
