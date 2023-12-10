@@ -155,7 +155,7 @@ function handleCityClickOtherwhere(event) {
   const lat = event.currentTarget.getAttribute("data-lat");
   const lng = event.currentTarget.getAttribute("data-lng");
   const city = event.currentTarget.getAttribute("data-city");
-  window.location.href = `../index.html?lat=${lat}&lng=${lng}&city=${city}`;
+  window.location.href = `./index.html?lat=${lat}&lng=${lng}&city=${city}`;
   city_name.innerText = city;
 }
 
