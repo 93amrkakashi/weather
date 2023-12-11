@@ -129,9 +129,9 @@
         class="ariana glass rounded-3xl mb-16 flex flex-col md:flex-row justify-between items-center w-full min-h-[300px]">
         <div class="degree h-full ">
           <div class="p-7 flex flex-col gap-7 justify-around items-center md:items-start">
-            <div>
+            <div class="flex justify-center items-center">
               <i class="  fa-solid fa-location-dot text-3xl md:text-4xl font-bold "></i>
-              <span class="city_name  font-bold text-3xl md:text-4xl mx-3"></span>
+              <span class="city_name w-full font-bold text-3xl md:text-4xl mx-3"></span>
             </div>
             <div class="ariana_con flex flex-col gap-5 justify-around items-center md:items-start">
 
@@ -140,7 +140,7 @@
           </div>
         </div>
         <div class="image  h-full flex justify-center items-start">
-          <img class="img w-[350px] h-[350ox] -mt-9" src="" alt="">
+          <img class="img w-[250px] md:w-[350px] h-[350ox] -mt-9" src="" alt="">
         </div>
       </div>
 
@@ -149,9 +149,9 @@
           class="bg-indigo-600 px-5 tol min-h-[40vh] w-[335px] flex flex-col justify-center items-start  bg-white rounded-3xl">
 
         </div>
-        <div class="ard w-[100%] md:w-[60%] min-h-[40vh] flex justify-around items-center gap-5">
+        <div class="ard w-[100%] md:w-[60%] min-h-[40vh] flex justify-center items-center">
           <div id="citiesList"
-            class="py-8 cites mx-3 flex flex-row-reverse justify-around items-center gap-3 flex-wrap">
+            class="w-full glass mt-3 py-8 cites mx-3 flex flex-row-reverse justify-around items-center gap-3 flex-wrap">
           </div>
         </div>
       </div>
@@ -178,16 +178,16 @@
     <!-- البتاعه اللى فيها الخريطة -->
     <div class="w-full overflow-hidden flex flex-row-reverse rounded-2xl justify-around items-center mt-12 mb-16">
 
-      <div id="googleMap" class="map w-[100%] bg-indigo-600 h-[600px]">
+      <div id="googleMap" class="map w-[100%] bg-indigo-600 h-[400px] md:h-[600px]">
       </div>
     </div>
-    <footer class="footer glass w-full text-2xl text-center flex justify-center items-center">
-      <div class="w-[90%] md:w-[40%] mx-auto my-auto flex flex-col justify-around items-center gap-4">
+    <footer class="footer glass w-full text-2xl text-center flex justify-center items-center min-h-[200px]">
+      <div class="w-[90%] md:w-[40%] flex flex-col justify-around items-center gap-4">
         <div class="navs text-lg flex justify-around items-center gap-5">
           <a data-translation="con1" href="./contact.html"> </a>
           <a data-translation="con2" href="./Politique.html"> </a>
           <a data-translation="con3" href="./condetions.html"> </a>
-          </a>
+        
         </div>
         <div class="social flex justify-around items-center gap-4 w-[40%] text-3xl">
           <i class="fa-brands fa-instagram"></i>
@@ -197,7 +197,9 @@
         <div class="copy">
           <p class="text-lg" id="footerText"></p>
         </div>
+      
       </div>
+      
     </footer>
   </div>
   <!-- <script src="./neweg.js"></script> -->

@@ -65,19 +65,26 @@ function searchCities(text) {
     searchResultsElement.style.display = "none";
   }
 }
-
 function filterCities(text) {
   text = text.toLowerCase();
-  return all.filter(city_name => city_name.city.toLowerCase().includes(text));
+  const sliceLength = lang === "ar" ? 4 : 6;
+  if (lang == "ar") {
+      return arTun.filter(city_name => city_name.city.toLowerCase().slice(sliceLength).includes(text));
+  } else {
+      return frTun.filter(city_name => city_name.city.toLowerCase().slice(sliceLength).includes(text));
+  }
 }
-
 function displayResults(results) {
-
+console.log(results)
   searchResultsElement.innerHTML = "";
 
   results.forEach(result => {
     const listItem = document.createElement("li");
-    listItem.innerHTML = `<span class="inline-block w-full  result_item" >${result.city}</span>`;
+    listItem.innerHTML = `
+    <a href="./index.html?lat=${result.lat}&lng=${result.lng}&city=${result.city}"
+    class="inline-block w-full  result_item" >
+    ${result.city}
+    </a>`;
     searchResultsElement.appendChild(listItem);
   });
   searchResultsElement.style.display = results.length > 0 ? "flex" : "none";
@@ -157,7 +164,7 @@ function populateCities(lang) {
     arTun.forEach((city) => {
       const cityTemplate = `
       <a href="./index.html?lat=${city.lat}&lng=${city.lng}&city=${city.city}" 
-                class="bg-gray-50 m-auto flex justify-center items-center font-bold h-[50px] border-2 rounded-lg text-center text-md w-[140px] py-1 px-2 "
+                class="bg-gray-50 m-auto flex justify-center items-center font-bold h-[50px] border-2 rounded-lg text-center text-sm md:text-base w-[100px] md:w-[150px] py-1 px-2 "
                 data-lat="${city.lat}" 
                 data-lng="${city.lng}"
                 data-city="${city.city}"
@@ -174,7 +181,7 @@ function populateCities(lang) {
     frTun.forEach((city) => {
       const cityTemplate = `
       <a href="./index.html?lat=${city.lat}&lng=${city.lng}&city=${city.city}" 
-                class="bg-gray-50 m-auto flex justify-center items-center font-bold border-2 rounded-lg text-center text-md w-[150px] h-[50px] py-1 px-2 "
+                class="bg-gray-50 m-auto flex justify-center items-center font-bold border-2 rounded-lg text-center text-sm md:text-base w-[100px] md:w-[150px] py-1 px-2 "
                 data-lat="${city.lat}" 
                 data-lng="${city.lng}"
                 data-city="${city.city}"

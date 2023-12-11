@@ -1,12 +1,11 @@
-const footerTextElement = document.getElementById('footerText');
+const footerTextElement = document.getElementById("footerText");
 const currentYear = new Date().getFullYear();
 footerTextElement.textContent = `meteo-Tunisie.net © ! أفضل معلومات الطقس. ${currentYear}!`;
 let selectElement = document.getElementById("languageSelect");
 const searchResultsElement = document.getElementById("searchResults");
 const mainContainer = document.querySelector("body");
-let the_main = document.querySelector(".the_main")
-let content_here = document.querySelector(".content_here")
-
+let the_main = document.querySelector(".the_main");
+let content_here = document.querySelector(".content_here");
 
 let toggleBtn = document.querySelector("#navbar-toggle");
 let collapse = document.querySelector("#navbar-collapse");
@@ -16,47 +15,42 @@ toggleBtn.onclick = () => {
   collapse.classList.toggle("flex");
 };
 
-
-
-
-
 let translations;
 
 async function loadTranslations() {
-  const response = await fetch('./locales/translations.json');
+  const response = await fetch("./locales/translations.json");
   translations = await response.json();
-  lang = localStorage.getItem("lang")
-  changeLanguage(lang || 'ar');
+  lang = localStorage.getItem("lang");
+  changeLanguage(lang || "ar");
 }
 
 function changeLanguage() {
   let selectedValue = selectElement.value;
-  console.log(selectedValue)
+  console.log(selectedValue);
   document.documentElement.lang = selectedValue;
-  localStorage.setItem("lang",selectedValue)
-  const elements = document.querySelectorAll('[data-translation]');
-  elements.forEach(element => {
+  localStorage.setItem("lang", selectedValue);
+  const elements = document.querySelectorAll("[data-translation]");
+  elements.forEach((element) => {
     const translationKey = element.dataset.translation;
-    element.textContent = translations[selectedValue][translationKey] || '';
+    element.textContent = translations[selectedValue][translationKey] || "";
   });
   populateCities(selectedValue);
-  change_content(selectedValue)
+  change_content(selectedValue);
 }
 
-
-
-loadTranslations()
+loadTranslations();
 document.addEventListener("DOMContentLoaded", function () {
-  lang = localStorage.getItem("lang") || "ar"
-  theme = localStorage.getItem("theme") || "light"
+  lang = localStorage.getItem("lang") || "ar";
+  theme = localStorage.getItem("theme") || "light";
   mainContainer.classList.add(theme);
   if (lang) {
     selectElement.value = lang;
   }
   changeLanguage();
-  populateCities(lang)
-  change_content(lang)
+  populateCities(lang);
+  change_content(lang);
 });
+
 
 
 
@@ -68,68 +62,74 @@ function searchCities(text) {
     searchResultsElement.style.display = "none";
   }
 }
-
 function filterCities(text) {
   text = text.toLowerCase();
-  return all.filter(city_name => city_name.city.toLowerCase().includes(text));
+  const sliceLength = lang === "ar" ? 4 : 6;
+  if (lang == "ar") {
+      return arTun.filter(city_name => city_name.city.toLowerCase().slice(sliceLength).includes(text));
+  } else {
+      return frTun.filter(city_name => city_name.city.toLowerCase().slice(sliceLength).includes(text));
+  }
 }
-
 function displayResults(results) {
-
+console.log(results)
   searchResultsElement.innerHTML = "";
 
   results.forEach(result => {
     const listItem = document.createElement("li");
-    listItem.innerHTML = `<span class="inline-block w-full  result_item" >${result.city}</span>`;
+    listItem.innerHTML = `
+    <a href="./index.html?lat=${result.lat}&lng=${result.lng}&city=${result.city}"
+    class="inline-block w-full  result_item" >
+    ${result.city}
+    </a>`;
     searchResultsElement.appendChild(listItem);
   });
   searchResultsElement.style.display = results.length > 0 ? "flex" : "none";
 }
+
+
 const themeToggleBtn = document.querySelector(".theme_toggler");
 themeToggleBtn.addEventListener("click", changeTheme);
 
 function changeTheme() {
-
   if (mainContainer.classList.contains("light")) {
     mainContainer.classList.add("dark");
     mainContainer.classList.remove("light");
-    localStorage.setItem("theme", "dark")
+    localStorage.setItem("theme", "dark");
   } else {
     mainContainer.classList.add("light");
     mainContainer.classList.remove("dark");
-    localStorage.setItem("theme", "light")
+    localStorage.setItem("theme", "light");
   }
 }
 
-
-
 function populateCities(lang) {
-  console.log(lang)
+  console.log(lang);
   const citiesList = document.querySelector(".cities_list");
   citiesList.innerHTML = "";
   if (lang === "ar") {
     arTun.forEach((city) => {
       const cityTemplate = `
             <a href="" 
-                class="bg-gray-50 m-auto flex justify-center items-center font-bold h-[50px] border-2 rounded-lg text-center text-md w-[140px] py-1 px-2 "
+                class="bg-gray-50 m-auto flex justify-center items-center font-bold h-[50px] border-2 rounded-lg text-center text-sm md:text-base w-[100px] md:w-[150px] py-1 px-2 "
                 data-lat="${city.lat}" 
                 data-lng="${city.lng}"
                 data-city="${city.city}"
                 onclick="handleCityClickOtherwhere(event)"
             >
                 <span class="w-full text-black ">
-                    ${city.city}
+ ${city.city}
                 </span>
             </a>
         `;
 
       citiesList.innerHTML += cityTemplate;
     });
-  }else{
+  } else {
     frTun.forEach((city) => {
       const cityTemplate = `
       <a href="./index.html?lat=${city.lat}&lng=${city.lng}&city=${city.city}" 
-                class="bg-gray-50 m-auto flex justify-center items-center font-bold border-2 rounded-lg text-center text-md w-[150px] h-[50px] py-1 px-2 "
+                class="bg-gray-50 m-auto flex justify-center items-center font-bold border-2 rounded-lg text-center text-sm md:text-base w-[100px] md:w-[150px] h-[50px] py-1 px-2 "
                 data-lat="${city.lat}" 
                 data-lng="${city.lng}"
                 data-city="${city.city}"
@@ -139,11 +139,10 @@ function populateCities(lang) {
                 </span>
             </a>
         `;
-  
+
       citiesList.innerHTML += cityTemplate;
     });
   }
-
 }
 
 function handleCityClickOtherwhere(event) {
@@ -157,52 +156,44 @@ function handleCityClickOtherwhere(event) {
 
 function change_content(lang) {
   if (lang === "ar") {
-    content_here.innerHTML= arConditions
-    the_main.classList.add("md:flex-row")
-    the_main.classList.remove("md:flex-row-reverse")
+    content_here.innerHTML = arConditions;
+    the_main.classList.add("md:flex-row");
+    the_main.classList.remove("md:flex-row-reverse");
   } else {
-    content_here.innerHTML= frConditions
-    the_main.classList.remove("md:flex-row")
-    the_main.classList.add("md:flex-row-reverse")
+    content_here.innerHTML = frConditions;
+    the_main.classList.remove("md:flex-row");
+    the_main.classList.add("md:flex-row-reverse");
   }
-  
 }
 
-
 let arConditions = `
-<section class="col-sm-9">
-                  <a id="main-content"></a>
-                    <h1 class="page-header"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">شروط الاستخدام</font></font></h1>
-                                                          <div class="region region-content">
-    <section id="block-system-main" class="block block-system clearfix">
-  <article id="node-7595" class="node node-page clearfix">
-    <div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even"><h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">نظرة عامة على الخدمة</font></font></h3>
-<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">موقع Meteo-Tunisie.net هو خدمة مخصصة لمعلومات الطقس في تونس. </font><font style="vertical-align: inherit;">يسمح للمستخدمين باستشارة معلومات الطقس من عدة مصادر على نفس الموقع. </font><font style="vertical-align: inherit;">الهدف من الموقع هو تسهيل الوصول إلى المعلومات التي تم جمعها.</font></font></p>
-<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">معلومات الطقس ومصادرها</font></font></h3>
-<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">يتم تحديث معلومات الطقس عدة مرات في اليوم:</font></font></p>
-<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">- 3 مرات يوميا بخصوص النشرة الجوية التي يصدرها المعهد الوطني للأرصاد الجوية بتونس. </font><font style="vertical-align: inherit;">يمكن الولوج إلى الموقع الرسمي للحركة الوطنية العراقية على هذا الرابط </font></font><a href="http://www.meteo.tn"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">www.meteo.tn</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
-<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">- بيانات الطقس (درجة الحرارة، الرياح، المطر) هي توقعات وبالتالي قد تختلف عن الواقع. </font><font style="vertical-align: inherit;">يستخدم موقع Meteo-Tunisie.net خدمة بيانات الطقس </font><font style="vertical-align: inherit;">التي يقدمها </font></font><a href="http://www.yr.no"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">www.yr.no.</font></font></a><font style="vertical-align: inherit;"></font></p>
-<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">- الصور الفضائية تأتي من موقع الصور الفضائية المتخصص ( </font></font><a href="http://www.sat24.com"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">www.sat24.com</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ). </font><font style="vertical-align: inherit;">يتم تحديثها 3 مرات في اليوم.</font></font></p>
-<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">حدود المسؤولية</font></font></h3>
-<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">موقع Meteo-Tunisie.net ليس مسؤولا عن مصداقية البيانات المذكورة أعلاه. </font><font style="vertical-align: inherit;">الخدمة المقدمة هي جمع وعرض هذه البيانات في شكل بديهي وسهل التشاور. </font><font style="vertical-align: inherit;">ولا يتحمل موقع Meteo-Tunisie.net بأي حال من الأحوال أي مسؤولية عن استخدام واستغلال هذه المعلومات.</font></font></p>
-<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">قد تمنع المشاكل التقنية تحديث بعض البيانات المذكورة أعلاه. </font><font style="vertical-align: inherit;">على الرغم من أن موقع Meteo-Tunisie.net يسعى جاهدا للاستجابة لمشاكل التحديث، إلا أنه لا يتحمل بأي حال من الأحوال المسؤولية عن مشاكل تحديث البيانات.</font></font></p>
-<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Meteo-Tunisie.net ليس الموقع الرسمي لمعلومات الطقس في تونس. </font><font style="vertical-align: inherit;">الموقع الرسمي مملوك ومدار من قبل المعهد الوطني للأرصاد الجوية (INM) ويمكن الوصول إليه على هذا العنوان </font></font><a href="http://www.meteo.tn"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">www.meteo.tn</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
-<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">هذه القائمة من حدود المسؤولية ليست شاملة.</font></font></p>
-<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">الضمان الفني</font></font></h3>
-<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">يسعى موقع Meteo-Tunisie.net إلى تقديم خدمة تقنية موثوقة لضمان التحديث المنتظم لمعلومات الأرصاد الجوية المذكورة أدناه بالإضافة إلى التوفر المستمر للوصول إلى الموقع. </font><font style="vertical-align: inherit;">ومع ذلك، فإن الأرصاد الجوية التونسية ليست ملزمة بأي التزام لتحقيق ذلك.</font></font></p>
-<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">باستخدام التعليقات</font></font></h3>
-<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">يتيح موقع Meteo-Tunisie.net لمستخدميه فرصة التفاعل وإبداء آرائهم عبر التعليقات. </font><font style="vertical-align: inherit;">ومع ذلك فإن موقع Meteo-Tunisie.net ليس مسؤولا بأي حال من الأحوال عن محتوى هذه التعليقات.</font></font></p>
-<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">استخدام الخدمة</font></font></h3>
-<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">إن استخدام الخدمة التي يقدمها موقع Meteo-Tunisie.net مجاني ومتاح لأي شخص مجهز بمحطة طرفية واتصال بالإنترنت. </font><font style="vertical-align: inherit;">استخدام الخدمة يعني القبول والموافقة على شروط استخدام موقع Meteo-Tunisie.net.</font></font></p>
-<h3><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">اتصال</font></font></h3>
-<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">بالنسبة لأي طلبات للحصول على معلومات أو اقتراحات لتحسين الخدمة التي تقدمها Meteo-Tunisie.net، فإننا نقدم لك عنوان بريدنا الإلكتروني </font></font><a href="mailto:contact@meteo-tunisie.net"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">contact@meteo-tunisie.net</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> بالإضافة إلى نموذج اتصال يمكن الوصول إليه عبر هذا </font></font><a href="http://meteo-tunisie.net/node/277"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">الرابط</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
-<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">النسخة العربية متاحة على هذا </font></font><a href="/conditions-utilisation-arabe"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">الرابط</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></p>
-</div></div></div>    </article>
-
-</section>
-  </div>
+<section dir="rtl" class="w-full pol_sec">
+ <h1 class="page-header">شروط الاستخدام </h1>
+ <div class="field-item even">
+ <h3>نظرة عامة على الخدمة </h3>
+ <p> موقع Meteo-Tunisie.net هو خدمة مخصصة لمعلومات الطقس في تونس. يسمح للمستخدمين باستشارة معلومات الطقس من عدة مصادر على نفس الموقع.  الهدف من الموقع هو تسهيل الوصول إلى المعلومات التي تم جمعها. </p>
+ <h3> معلومات الطقس ومصادرها </h3>
+ <p> يتم تحديث معلومات الطقس عدة مرات في اليوم: </p>
+ <p> - 3 مرات يوميا بخصوص النشرة الجوية التي يصدرها المعهد الوطني للأرصاد الجوية بتونس.  يمكن الولوج إلى الموقع الرسمي للحركة الوطنية العراقية على هذا الرابط  <a href="http://www.meteo.tn"> www.meteo.tn </a>  . </p>
+ <p> - بيانات الطقس (درجة الحرارة، الرياح، المطر) هي توقعات وبالتالي قد تختلف عن الواقع.  يستخدم موقع Meteo-Tunisie.net خدمة بيانات الطقس  التي يقدمها  <a href="http://www.yr.no"> www.yr.no. </a></p>
+ <p> - الصور الفضائية تأتي من موقع الصور الفضائية المتخصص (  <a href="http://www.sat24.com"> www.sat24.com </a>  ).  يتم تحديثها 3 مرات في اليوم. </p>
+ <h3> حدود المسؤولية </h3>
+ <p> موقع Meteo-Tunisie.net ليس مسؤولا عن مصداقية البيانات المذكورة أعلاه.  الخدمة المقدمة هي جمع وعرض هذه البيانات في شكل بديهي وسهل التشاور.  ولا يتحمل موقع Meteo-Tunisie.net بأي حال من الأحوال أي مسؤولية عن استخدام واستغلال هذه المعلومات. </p>
+ <p> قد تمنع المشاكل التقنية تحديث بعض البيانات المذكورة أعلاه.  على الرغم من أن موقع Meteo-Tunisie.net يسعى جاهدا للاستجابة لمشاكل التحديث، إلا أنه لا يتحمل بأي حال من الأحوال المسؤولية عن مشاكل تحديث البيانات. </p>
+ <p> Meteo-Tunisie.net ليس الموقع الرسمي لمعلومات الطقس في تونس.  الموقع الرسمي مملوك ومدار من قبل المعهد الوطني للأرصاد الجوية (INM) ويمكن الوصول إليه على هذا العنوان  <a href="http://www.meteo.tn"> www.meteo.tn </a>  . </p>
+ <p> هذه القائمة من حدود المسؤولية ليست شاملة. </p>
+ <h3> الضمان الفني </h3>
+ <p> يسعى موقع Meteo-Tunisie.net إلى تقديم خدمة تقنية موثوقة لضمان التحديث المنتظم لمعلومات الأرصاد الجوية المذكورة أدناه بالإضافة إلى التوفر المستمر للوصول إلى الموقع.  ومع ذلك، فإن الأرصاد الجوية التونسية ليست ملزمة بأي التزام لتحقيق ذلك. </p>
+ <h3> باستخدام التعليقات </h3>
+ <p> يتيح موقع Meteo-Tunisie.net لمستخدميه فرصة التفاعل وإبداء آرائهم عبر التعليقات.  ومع ذلك فإن موقع Meteo-Tunisie.net ليس مسؤولا بأي حال من الأحوال عن محتوى هذه التعليقات. </p>
+ <h3> استخدام الخدمة </h3>
+ <p> إن استخدام الخدمة التي يقدمها موقع Meteo-Tunisie.net مجاني ومتاح لأي شخص مجهز بمحطة طرفية واتصال بالإنترنت.  استخدام الخدمة يعني القبول والموافقة على شروط استخدام موقع Meteo-Tunisie.net. </p>
+ <h3> اتصال </h3>
+ <p> بالنسبة لأي طلبات للحصول على معلومات أو اقتراحات لتحسين الخدمة التي تقدمها Meteo-Tunisie.net، فإننا نقدم لك عنوان بريدنا الإلكتروني  <a href="mailto:contact@meteo-tunisie.net"> contact@meteo-tunisie.net </a>  بالإضافة إلى نموذج اتصال يمكن الوصول إليه عبر هذا  <a href="http://meteo-tunisie.net/node/277"> الرابط </a>  . </p>
+ <p> النسخة العربية متاحة على هذا  <a href="/conditions-utilisation-arabe"> الرابط </a>  . </p>
+ </div>
     </section>
-`
+`;
 
 let frConditions = `<section dir="ltr" class="w-full pol_sec">
 <a id="main-content"></a>
@@ -267,4 +258,4 @@ let frConditions = `<section dir="ltr" class="w-full pol_sec">
   </section>
 </div>
 </section>
-`
+`;

@@ -64,19 +64,26 @@ function searchCities(text) {
     searchResultsElement.style.display = "none";
   }
 }
-
 function filterCities(text) {
   text = text.toLowerCase();
-  return all.filter(city_name => city_name.city.toLowerCase().includes(text));
+  const sliceLength = lang === "ar" ? 4 : 6;
+  if (lang == "ar") {
+      return arTun.filter(city_name => city_name.city.toLowerCase().slice(sliceLength).includes(text));
+  } else {
+      return frTun.filter(city_name => city_name.city.toLowerCase().slice(sliceLength).includes(text));
+  }
 }
-
 function displayResults(results) {
-
+console.log(results)
   searchResultsElement.innerHTML = "";
 
   results.forEach(result => {
     const listItem = document.createElement("li");
-    listItem.innerHTML = `<span class="inline-block w-full  result_item" >${result.city}</span>`;
+    listItem.innerHTML = `
+    <a href="./index.html?lat=${result.lat}&lng=${result.lng}&city=${result.city}"
+    class="inline-block w-full  result_item" >
+    ${result.city}
+    </a>`;
     searchResultsElement.appendChild(listItem);
   });
   searchResultsElement.style.display = results.length > 0 ? "flex" : "none";
