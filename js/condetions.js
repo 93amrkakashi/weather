@@ -90,16 +90,36 @@ console.log(results)
 
 const themeToggleBtn = document.querySelector(".theme_toggler");
 themeToggleBtn.addEventListener("click", changeTheme);
+glass_element = document.querySelectorAll(".glass");
+
+function change_glass(theme) {
+  
+  if (theme == "dark") {
+    glass_element.forEach(function(element) {
+      element.classList.add("glass_dark");
+      element.classList.remove("glass_light");
+    });
+  } else{
+    glass_element.forEach(function(element) {
+      element.classList.add("glass_light");
+      element.classList.remove("glass_dark");
+    });
+  }
+}
+
+change_glass(localStorage.getItem("theme"))
 
 function changeTheme() {
   if (mainContainer.classList.contains("light")) {
     mainContainer.classList.add("dark");
     mainContainer.classList.remove("light");
-    localStorage.setItem("theme", "dark");
+    localStorage.setItem("theme", "dark")
+    change_glass("dark")
   } else {
     mainContainer.classList.add("light");
     mainContainer.classList.remove("dark");
-    localStorage.setItem("theme", "light");
+    localStorage.setItem("theme", "light")
+    change_glass("light")
   }
 }
 

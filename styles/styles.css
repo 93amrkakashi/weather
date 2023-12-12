@@ -58,12 +58,15 @@ body{
 }
 
 .glass {
+  text-decoration: none;
+}
+.glass_light {
   background-color: rgba(125, 120, 125, 0.3);
   box-shadow: 5px 5px 11px rgba(125, 120, 120, 0.5);
 }
-
 .glass_dark{
-  background-color: rgb(125, 123, 120) ;
+  background-color: rgb(37 36 37 / 73%);
+    box-shadow: 5px 5px 11px rgb(59 58 58 / 66%);
 }
 
 .search-results {
@@ -149,6 +152,55 @@ width: 100%;
   margin-bottom: 5px;
 
 }
+
+
+
+
+.ql-toolbar.ql-snow {
+  border: 2px solid #000000 !important;
+  padding: 8px !important;
+  border-radius: 15px;
+  background-color: #C4C9D1;
+}
+
+.ql-snow.ql-toolbar button,
+.ql-snow .ql-toolbar button {
+  height: 30px !important;
+  width: 30px !important;
+}
+.ql-snow .ql-picker {
+  font-weight: bold !important;
+  font-size: 20px !important;
+}
+
+
+.dropzone {
+  align-self: center;
+  
+}
+
+.field {
+  position: relative;
+}
+
+#file-upload {
+  position: relative;
+}
+
+.upload-icon {
+  border: 6px dashed #1c8edf;
+  cursor: pointer;
+}
+.file{
+  border: 1px solid black;
+  padding: 5px 10px;
+}
+
+.uploaded_file{
+  width: 250px;
+  height: 250px;
+}
+
 
 
 
