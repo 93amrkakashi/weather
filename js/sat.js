@@ -38,7 +38,6 @@ function changeLanguage() {
     element.textContent = translations[selectedValue][translationKey] || '';
   });
   populateCities(selectedValue);
-  getRandomCity(selectedValue)
 }
 
 

@@ -118,15 +118,14 @@
     </nav>
     <!-- data-translation="contactus"  -->
     <div class="the_main w-full pt-12 flex flex-col md:flex-row-reverse justify-start items-start min-h[100vh]">
-      <div class="content_here w-full md:w-[70%] h-full sat flex flex-col justify-center items-start gap-6 py-8 px-4">
-        
-      </div>
-      <div class="cities w-full md:w-[30%] h-full flex flex-col justify-center items-center gap-6 py-8 px-4">
-        <h1 data-translation="w_by" class="my-8 text-3xl font-bold"></h1>
-        <div class="cities_list w-[100%] flex justify-around items-center gap-5 flex-wrap">
+      
 
-        </div>
-      </div>
+      <form id="upload-form">
+        <input type="file" id="file-input" />
+        <button type="button" onclick="uploadImage()">رفع الصورة</button>
+      </form>
+      
+
     </div>
 
     <footer class="footer glass w-full text-2xl text-center flex justify-center items-center min-h-[200px]">
@@ -149,7 +148,7 @@
   </div>
   <!-- <script src="./neweg.js"></script> -->
   <script src="./js/tunisCites.js"></script>
-  <script src="./js/condetions.js"></script>
-</body>
+  <script src="./js/dashboard.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cloudinary-core/2.13.0/cloudinary-core-shrinkwrap.min.js"></script></body>
 
 </html>
